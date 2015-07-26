@@ -1,11 +1,12 @@
 from Settings import Settings
 from sys import stderr, stdin, stdout
+import numpy as np
 
 class PlayerState:
     def __init__(self):
         self.row_points = 0;
         self.combo = 0;
-        self.field = ""
+        self.board =  np.matrix('')
 
     def parsePlayerState(self, parts):
         playerStateMessage = parts[0].lower()
@@ -14,16 +15,16 @@ class PlayerState:
             #update b row_points i	-> The amount of row points the given player has scored so far
             self.row_points = int(parts[1].lower());
 
-            pass
         elif playerStateMessage == 'combo':
             #update b combo i	-> The height of the current combo for the given player
             self.combo = int(parts[1].lower())
 
-            pass
         elif playerStateMessage == 'field':
              #update b field [[c,...];...]	-> The complete playing field of the given player
-            self.field = parts[1].lower()
-            pass
+            field = parts[1].lower()
+            temp = field.replace(","," ");
+            self.board =  np.matrix(temp)
+
         else:
             stderr.write('Unknown player state: %s\n' % (playerStateMessage))
             stderr.flush()
@@ -55,31 +56,31 @@ class GameState:
             if gameStateMessage== 'round':
                 #update game round i
                 self.round = int(parts[2])
-                pass
+
             elif gameStateMessage == 'this_piece_type':
                 #update game this_piece_type s
                 self.this_piece_type = parts[2]
-                pass
+
             elif gameStateMessage == 'next_piece_type':
                 #update game next_piece_type s
                 self.next_piece_type = parts[2]
-                pass
+
             elif gameStateMessage == 'this_piece_position':
                 #update game this_piece_position i,i
                 position = parts[2].split(',')
                 self.this_piece_position["x"] = int(position[0])
                 self.this_piece_position["y"] = int(position[1])
-                pass
+
             else:
                 stderr.write('Unknown gameStateMessage: %s\n' % (parts[1]))
                 stderr.flush()
 
         elif parts[0] == self.settings.bots["me"]:
             self.players["me"].parsePlayerState(parts[1:])
-            pass
+
         elif parts[0] == self.settings.bots["opponent"]:
             self.players["opponent"].parsePlayerState(parts[1:])
-            pass
+
         else:
             stderr.write('Unknown gameStateMessage: %s\n' % (parts[0]))
             stderr.flush()

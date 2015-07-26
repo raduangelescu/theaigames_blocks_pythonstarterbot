@@ -68,15 +68,15 @@ class Bot(object):
 
                 if command == 'settings':
                     self.game_state.parseSettingsMessage(parts[1:])
-                    pass
+
                 elif command == 'update':
                     self.game_state.parseGameMessage(parts[1:])
-                    pass
+
 
                 elif command == 'action':
                     stdout.write('drop \n')
                     stdout.flush()
-                    pass
+
                 else:
                     stderr.write('Unknown command: %s\n' % (command))
                     stderr.flush()

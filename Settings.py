@@ -18,17 +18,17 @@ class Settings:
         if setting== 'timebank':
             #settings timebank t	(miliseconds)
             self.timebank = int(parts[1])
-            pass
+
         elif setting == 'time_per_move':
             #settings time_per_move t (miliseconds)
             self.time_per_move = int(parts[1])
-            pass
+
         elif setting == 'player_names':
             #settings player_names [b,...]
             players = parts[1].split(',')
             self.bots["me"] = players[0]
             self.bots["opponent"] = players[1]
-            pass
+
         elif setting == 'your_bot':
             #settings your_bot b
             if self.bots["me"] == parts[1]:
@@ -36,15 +36,15 @@ class Settings:
             else:
                 self.bots["opponent"] = self.bots["me"]
                 self.bots["me"] = parts[1]
-            pass
+
         elif setting =='field_width':
             # settings field_width i
             self.field_width = int(parts[1])
-            pass
+
         elif setting == 'field_height':
             # settings field_height i
             self.field_height = int(parts[1])
-            pass
+            
         else:
             stderr.write('Unknown setting: %s\n' % (setting))
             stderr.flush()
